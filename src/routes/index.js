@@ -4,6 +4,6 @@ import doctorsRouters from "./doctorsRoutes.js"
 const routes = Router();
 
 routes.use("/patients", patientRoutes);
-routes.use("/doctors", doctorsRouters)
+routes.use("/doctors", doctorsRouters);
 
 export default routes;
