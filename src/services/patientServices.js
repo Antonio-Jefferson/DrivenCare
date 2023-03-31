@@ -11,6 +11,19 @@ async function create({ name, email, password, phone}) {
   await patientRepositories.create({ name, email, password: hashPassword, phone });
 }
 
+
+async function signin({ email, password }){
+  const {rowCount, rows: [user],} = await patientRepositories.findByEmail(email);
+  if (!rowCount) throw new Error("Incorrect email or password");
+
+  const validPassword = await bcrypt.compare(password, user.password);
+  if (!validPassword) throw new Error("Incorrect email or password");
+
+  const token = uuidV4();
+  await patientRepositories.createSession({ token, patientId: user.id });
+
+  return token;
+}
 export default{
-    create
+  create, signin
 }

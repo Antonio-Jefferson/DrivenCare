@@ -13,14 +13,16 @@ async function create(req, res) {
 }
 
 async function signin(req, res){
+    const {email, password} = req.body
     try {
-        
+        const token = await patientServices.signin({ email, password });
+        return res.send({ token });
     } catch (error) {
         console.log(error)
         return res.status(500).sed(error.message)
     }
 }
-
 export default {
-    create
+    create,
+    signin
 }
