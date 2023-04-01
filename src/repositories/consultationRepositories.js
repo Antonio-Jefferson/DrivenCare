@@ -31,10 +31,17 @@ async function updateConfirm(id){
     UPDATE appointments SET confirm = TRUE WHERE id = $1;
     `,[consultId])
 }
+async function updateCancel(id){
+    const consultId = Number(id);
+    connectionDb.query(`
+    UPDATE appointments SET confirm = FALSE WHERE id = $1;
+    `,[consultId])
+}
 
 export default{
     findByDoctorTime,
     create,
     findByConsult,
-    updateConfirm
+    updateConfirm,
+    updateCancel
 }

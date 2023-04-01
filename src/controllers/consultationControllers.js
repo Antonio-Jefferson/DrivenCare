@@ -22,9 +22,20 @@ async function updateConfirm(req, res){
         return res.status(500).send(error.message)
     }
 }
+async function updateCancel(req, res){
+    const {id} = req.params; 
+    try {
+        await consultationServices.updateCancel(id)
+        res.sendStatus(201);
+    } catch (error) {
+        console.log(error)
+        return res.status(500).send(error.message)
+    }
+}
 
 
 export default {
     create,
-    updateConfirm
+    updateConfirm,
+    updateCancel
 }
