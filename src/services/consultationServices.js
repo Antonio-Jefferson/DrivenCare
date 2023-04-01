@@ -26,8 +26,17 @@ async function updateCancel(id){
     await consultationRepositories.updateCancel(id);
 }
 
+async function updateCarriedOut(id){
+    const consultId = Number(id)
+    const {rowCount} =  await consultationRepositories.findByConsult(id);
+    if(!rowCount) throw new Error("caiu aqui");
+
+    await consultationRepositories.updateCarriedOut(consultId)
+}
+
 export default {
     create,
     updateConfirm,
-    updateCancel
+    updateCancel,
+    updateCarriedOut
 }

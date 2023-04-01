@@ -22,6 +22,14 @@ async function signin({ email, password }){
   await patientRepositories.createSession({ token, patientId: patient.id });
   return token;
 }
+
+async function allCosults(id){
+  const patientId = Number(id)
+  console.log(patientId)
+  
+  const result = await patientRepositories.allCosults(patientId);
+  return result.rows;
+}
 export default{
-  create, signin
+  create, signin, allCosults
 }

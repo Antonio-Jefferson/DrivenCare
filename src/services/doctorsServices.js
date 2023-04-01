@@ -29,8 +29,14 @@ async function allConsults(id){
     const result = await doctorsRepositories.allConsults(id)
     return result.rows;
 }
+
+async function getByDoctorSearch({ name, specialty, location }){
+    const {rows} = await doctorsRepositories.getByDoctorSearch({ name, specialty, location });
+    return rows;
+}
 export default{
     create,
     signin,
-    allConsults
+    allConsults,
+    getByDoctorSearch
 }

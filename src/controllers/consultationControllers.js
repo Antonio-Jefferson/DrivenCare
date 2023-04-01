@@ -33,9 +33,21 @@ async function updateCancel(req, res){
     }
 }
 
+async function updateCarriedOut(req, res){
+    const {id} = req.params;
+    try {
+        await consultationServices.updateCarriedOut(id)
+        res.sendStatus(200)
+    } catch (error) {
+        console.log(error)
+        return res.status(500).send(error.message)
+    }
+}
+
 
 export default {
     create,
     updateConfirm,
-    updateCancel
+    updateCancel,
+    updateCarriedOut
 }

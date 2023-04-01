@@ -9,4 +9,6 @@ const consultationRoutes = Router();
 consultationRoutes.post("/schedule", validateSchema(consultationSchema), authMiddleware.authValidation, consultationControllers.create)
 consultationRoutes.put("/:id/confirm", consultationControllers.updateConfirm)
 consultationRoutes.put("/:id/cancel", consultationControllers.updateCancel)
+consultationRoutes.put('/:id/carriedout', consultationControllers.updateCarriedOut)
+
 export default consultationRoutes;

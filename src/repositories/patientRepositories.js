@@ -17,12 +17,13 @@ async function create({ name, email, password, phone }){
 }
 
 async function createSession({ token, patientId }) {
+    const type = "patient"
     await connectionDb.query(
       `
-          INSERT INTO sessions (token, patient_id)
-          VALUES ($1, $2)
+          INSERT INTO sessions (token, user_type, patient_id)
+          VALUES ($1, $2, $3)
       `,
-      [token, patientId]
+      [token,type, patientId]
     );
   }
 
@@ -44,10 +45,18 @@ async function createSession({ token, patientId }) {
     );
   }
 
+  async function allCosults(id){
+    console.log({id})
+    return await connectionDb.query(`
+    SELECT * FROM appointments WHERE patient_id = $1 AND carried_out = TRUE;
+    `,[id])
+  }
+
 export default{
     findByEmail,
     create,
     createSession,
     findSessionByToken,
-    findById
+    findById,
+    allCosults
 }

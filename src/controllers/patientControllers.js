@@ -19,30 +19,25 @@ async function signin(req, res){
         return res.send({ token });
     } catch (error) {
         console.log(error)
-        return res.status(500).sed(error.message)
+        return res.status(500).send(error.message)
     }
 }
-async function findSessionByToken(token) {
-    return await connectionDb.query(
-      `
-          SELECT * FROM sessions WHERE token = $1
-      `,
-      [token]
-    );
+async function allCosults(req, res){
+  const {id} = res.locals.user;
+  console.log(id)
+  try {
+    const consults = await patientServices.allCosults(id);
+    res.send({consults})
+
+  } catch (error) {
+    console.log(error)
+    return res.status(500).send(error.message)
   }
-  
-  async function findById(id) {
-    return await connectionDb.query(
-      `    
-      SELECT * FROM patients WHERE id=$1
-    `,
-      [id]
-    );
-  }
+}
+
   
 export default {
     create,
     signin,
-    findSessionByToken,
-    findById
+    allCosults
 }

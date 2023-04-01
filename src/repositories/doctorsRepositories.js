@@ -13,14 +13,15 @@ async function create({name, email, password, specialty, location }){
 }
 
 async function createSession({ token, doctorId }) {
-    await connectionDb.query(
-      `
-          INSERT INTO sessions_doctors (token, doctor_id)
-          VALUES ($1, $2)
-      `,
-      [token, doctorId]
-    );
-  }
+  await connectionDb.query(
+    `
+      INSERT INTO sessions (token, user_type, doctor_id)
+      VALUES ($1, 'doctor', $2)
+    `,
+    [token, doctorId]
+  );
+}
+
 
   async function findByDoctor(id){
     const doctorId = Number(id);
@@ -32,8 +33,18 @@ async function createSession({ token, doctorId }) {
   async function allConsults(id){
     const doctorId = Number(id);
     return connectionDb.query(`
-        SELECT * FROM appointments WHERE doctor_id = $1;
+        SELECT * FROM appointments WHERE doctor_id = $1 AND carried_out = TRUE;
     `,[doctorId])
+  }
+
+  async function getByDoctorSearch({ name, specialty, location }){
+    return connectionDb.query(`
+    SELECT id, name, specialty
+    FROM doctors
+    WHERE name ILIKE '%' || COALESCE($1, '') || '%'
+      AND specialty ILIKE '%' || COALESCE($2, '') || '%'
+      AND location ILIKE '%' || COALESCE($3, '') || '%';
+    `,[name, specialty, location ])
   }
   
 export default {
@@ -41,5 +52,6 @@ export default {
     create,
     createSession,
     findByDoctor,
-    allConsults
+    allConsults,
+    getByDoctorSearch
 }

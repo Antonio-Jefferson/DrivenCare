@@ -8,5 +8,6 @@ const doctorsRoutes = Router();
 doctorsRoutes.post("/signup",validateSchema(schemaDoctors),  doctorsControllers.create)
 doctorsRoutes.post("/signin", doctorsControllers.signin)
 doctorsRoutes.get("/:id/consultations", doctorsControllers.allConsults)
+doctorsRoutes.get("/", doctorsControllers.getByDoctorSearch)
 
 export default doctorsRoutes;

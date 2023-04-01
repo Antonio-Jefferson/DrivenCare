@@ -8,14 +8,18 @@ async function authValidation(req, res, next) {
   if (!token) throw errors.unauthorizedError();
 
   try {
-    const {
-      rows: [session],
-    } = await patientRepositories.findSessionByToken(token);
+    const session = await patientRepositories.findSessionByToken(token);
     if (!session) throw errors.unauthorizedError();
     
-    const {
-      rows: [user],
-    } = await patientRepositories.findById(session.patient_id);
+    let user;
+    if (session.user_type === "patient") {
+      user = await patientRepositories.findById(session.patient_id);
+    } else if (session.user_type === "doctor") {
+      user = await doctorRepositories.findById(session.doctor_id);
+    } else {
+      throw errors.unauthorizedError();
+    }
+    
     if (!user) throw errors.notFoundError();
   
     res.locals.user = user;
