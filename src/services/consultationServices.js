@@ -13,6 +13,17 @@ async function create({doctorId, id, date, time}){
     await consultationRepositories.create({doctorId, id, date, time})
 }
 
+async function updateConfirm(id){
+    console.log(id)
+
+    const {rowCount} =  await consultationRepositories.findByConsult(id);
+    console.log(rowCount)
+    if(!rowCount) throw new Error("caiu aqui");
+
+    await consultationRepositories.updateConfirm(id);
+}
+
 export default {
-    create
+    create,
+    updateConfirm
 }

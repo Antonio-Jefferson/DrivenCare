@@ -13,8 +13,7 @@ async function create(req, res){
 }
 
 async function updateConfirm(req, res){
-    const {id} = req.parames;
-    console.log({id})
+    const {id} = req.params; 
     try {
         await consultationServices.updateConfirm(id)
         res.sendStatus(201);
@@ -23,6 +22,7 @@ async function updateConfirm(req, res){
         return res.status(500).send(error.message)
     }
 }
+
 
 export default {
     create,

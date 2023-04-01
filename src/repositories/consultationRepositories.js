@@ -17,7 +17,24 @@ async function create({doctorId, id, date, time}){
     `,[doctorId, id, date, time ])
 }
 
+async function findByConsult(id){
+    const consultId = Number(id);
+    console.log({consultId})
+    return connectionDb.query(`
+    SELECT * FROM appointments WHERE id = $1;
+    `,[consultId])
+}
+
+async function updateConfirm(id){
+    const consultId = Number(id);
+    connectionDb.query(`
+    UPDATE appointments SET confirm = TRUE WHERE id = $1;
+    `,[consultId])
+}
+
 export default{
     findByDoctorTime,
-    create
+    create,
+    findByConsult,
+    updateConfirm
 }
