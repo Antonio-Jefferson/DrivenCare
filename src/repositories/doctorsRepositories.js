@@ -22,8 +22,24 @@ async function createSession({ token, doctorId }) {
     );
   }
 
+  async function findByDoctor(id){
+    const doctorId = Number(id);
+    return connectionDb.query(`
+        SELECT * FROM doctors WHERE id = $1;
+    `,[doctorId])
+  }
+
+  async function allConsults(id){
+    const doctorId = Number(id);
+    return connectionDb.query(`
+        SELECT * FROM appointments WHERE doctor_id = $1;
+    `,[doctorId])
+  }
+  
 export default {
     findByEmail,
     create,
-    createSession
+    createSession,
+    findByDoctor,
+    allConsults
 }

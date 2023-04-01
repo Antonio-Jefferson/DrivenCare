@@ -20,7 +20,19 @@ async function signin(req, res){
     }
 }
 
+async function allConsults(req, res){
+    const {id} = req.params;
+    try {
+        const consults = await doctorsServices.allConsults(id)
+        res.send({consults})
+
+    } catch (error) {
+        return res.status(500).send(error.message)
+    }
+}
+
 export default{
     create,
-    signin
+    signin,
+    allConsults
 }

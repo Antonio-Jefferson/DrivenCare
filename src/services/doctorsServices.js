@@ -22,7 +22,15 @@ async function signin({email, password}){
   return token;
 }
 
+async function allConsults(id){
+    const {rowCount} =  await doctorsRepositories.findByDoctor(id);
+    if(!rowCount) throw new Error("caiu aqui 2");
+
+    const result = await doctorsRepositories.allConsults(id)
+    return result.rows;
+}
 export default{
     create,
-    signin
+    signin,
+    allConsults
 }
