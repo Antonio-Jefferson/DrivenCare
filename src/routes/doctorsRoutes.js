@@ -3,9 +3,9 @@ import doctorsControllers from "../controllers/doctorsControllers.js";
 import { validateSchema } from "../middlewares/schemaValidation.js";
 import schemaDoctors from "../schemas/doctors.js";
 
-const doctorsRouters = Router();
+const doctorsRoutes = Router();
 
-doctorsRouters.post("/signup",validateSchema(schemaDoctors),  doctorsControllers.create)
-doctorsRouters.post("/signin", doctorsControllers.signin)
+doctorsRoutes.post("/signup",validateSchema(schemaDoctors),  doctorsControllers.create)
+doctorsRoutes.post("/signin", doctorsControllers.signin)
 
-export default doctorsRouters;
+export default doctorsRoutes;

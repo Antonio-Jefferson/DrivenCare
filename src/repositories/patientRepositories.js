@@ -26,8 +26,28 @@ async function createSession({ token, patientId }) {
     );
   }
 
+  async function findSessionByToken(token) {
+    return await connectionDb.query(
+      `
+          SELECT * FROM sessions WHERE token = $1
+      `,
+      [token]
+    );
+  }
+  
+  async function findById(id) {
+    return await connectionDb.query(
+      `    
+      SELECT * FROM patients WHERE id=$1
+    `,
+      [id]
+    );
+  }
+
 export default{
     findByEmail,
     create,
-    createSession
+    createSession,
+    findSessionByToken,
+    findById
 }

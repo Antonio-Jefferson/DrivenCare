@@ -22,7 +22,27 @@ async function signin(req, res){
         return res.status(500).sed(error.message)
     }
 }
+async function findSessionByToken(token) {
+    return await connectionDb.query(
+      `
+          SELECT * FROM sessions WHERE token = $1
+      `,
+      [token]
+    );
+  }
+  
+  async function findById(id) {
+    return await connectionDb.query(
+      `    
+      SELECT * FROM patients WHERE id=$1
+    `,
+      [id]
+    );
+  }
+  
 export default {
     create,
-    signin
+    signin,
+    findSessionByToken,
+    findById
 }
