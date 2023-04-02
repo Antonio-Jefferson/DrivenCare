@@ -13,7 +13,7 @@ async function findByDoctorTime({doctorId, time}){
 async function create({doctorId, id, date, time}){
     connectionDb.query(`
     INSERT INTO appointments (doctor_id, patient_id, date, time) 
-    VALUES ($1, $2, $3, $4)
+    VALUES ($1, $2, $3, $4,)
     `,[doctorId, id, date, time ])
 }
 

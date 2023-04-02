@@ -52,6 +52,17 @@ async function createSession({ token, patientId }) {
     `,[id])
   }
 
+  async function getAppointmentsForPatient(id){
+    const result = await connectionDb.query(`
+    SELECT a.id, a.date, a.time, d.name as doctor_name, d.specialty
+    FROM appointments a
+    JOIN doctors d ON a.doctor_id = d.id
+    WHERE a.patient_id = $1
+    ORDER BY a.date ASC, a.time ASC;
+    `,[id])
+
+    return result.rows;
+  }
 export default{
     findByEmail,
     create,

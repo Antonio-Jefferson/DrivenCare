@@ -46,6 +46,27 @@ async function createSession({ token, doctorId }) {
       AND location ILIKE '%' || COALESCE($3, '') || '%';
     `,[name, specialty, location ])
   }
+
+  async function getAppointmentsForDoctor(doctorId) {
+    const result = await connectionDb.query(`
+      SELECT 
+        appointments.date, 
+        appointments.time, 
+        patients.name AS patient_name, 
+        doctors.specialty 
+      FROM 
+        appointments 
+        JOIN patients ON appointments.patient_id = patients.id 
+        JOIN doctors ON appointments.doctor_id = doctors.id 
+      WHERE 
+        appointments.doctor_id = $1
+      ORDER BY 
+        appointments.date, 
+        appointments.time
+    `, [doctorId]);
+  
+    return result.rows;
+  }
   
 export default {
     findByEmail,
@@ -53,5 +74,6 @@ export default {
     createSession,
     findByDoctor,
     allConsults,
-    getByDoctorSearch
+    getByDoctorSearch,
+    getAppointmentsForDoctor
 }

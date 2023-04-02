@@ -1,11 +1,11 @@
 import bcrypt from "bcrypt";
 import patientRepositories from "../repositories/patientRepositories.js";
+import errors from "../errors/index.js"
 import { v4 as uuidV4 } from "uuid";
 
 async function create({ name, email, password, phone}) {
-  console.log("services")  
   const { rowCount } = await patientRepositories.findByEmail(email);
-  if (rowCount) throw new Error("User already exists");
+  if (rowCount) throw errors.duplicatedEmailError();
 
   const hashPassword = await bcrypt.hash(password, 10);
   await patientRepositories.create({ name, email, password: hashPassword, phone });
@@ -13,10 +13,10 @@ async function create({ name, email, password, phone}) {
 
 async function signin({ email, password }){
   const {rowCount, rows: [patient]} = await patientRepositories.findByEmail(email);
-  if (!rowCount) throw new Error("Incorrect email or password");
+  if (!rowCount) throw errors.invalidCredentialsError();
 
   const validPassword = await bcrypt.compare(password, patient.password);
-  if (!validPassword) throw new Error("Incorrect email or password");
+  if (!validPassword) throw errors.invalidCredentialsError();
 
   const token = uuidV4();
   await patientRepositories.createSession({ token, patientId: patient.id });
@@ -25,11 +25,11 @@ async function signin({ email, password }){
 
 async function allCosults(id){
   const patientId = Number(id)
-  console.log(patientId)
-  
+ 
   const result = await patientRepositories.allCosults(patientId);
   return result.rows;
 }
+
 export default{
   create, signin, allCosults
 }
