@@ -12,14 +12,14 @@ async function findByDoctorTime({doctorId, time}){
 
 async function create({doctorId, id, date, time}){
     connectionDb.query(`
-    INSERT INTO appointments (doctor_id, patient_id, date, time) 
-    VALUES ($1, $2, $3, $4,)
-    `,[doctorId, id, date, time ])
-}
+      INSERT INTO appointments (doctor_id, patient_id, date, time) 
+      VALUES ($1, $2, $3, $4)
+    `,[doctorId, id, date, time ]);
+  }
 
 async function findByConsult(id){
     const consultId = Number(id);
-    console.log({consultId})
+    
     return connectionDb.query(`
     SELECT * FROM appointments WHERE id = $1;
     `,[consultId])

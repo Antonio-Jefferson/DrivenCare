@@ -16,7 +16,7 @@ async function updateConfirm(req, res, next){
     const {id} = req.params; 
     try {
         await consultationServices.updateConfirm(id)
-        res.sendStatus(201);
+        res.sendStatus(200);
     } catch (error) {
         next(error)
     }
@@ -26,7 +26,7 @@ async function updateCancel(req, res, next){
 
     try {
         await consultationServices.updateCancel(id)
-        res.sendStatus(201);
+        res.sendStatus(200);
     } catch (error) {
         next(error)
     }

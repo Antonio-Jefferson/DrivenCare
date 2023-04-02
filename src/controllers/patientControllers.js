@@ -21,6 +21,7 @@ async function signin(req, res, next){
        next(error)
     }
 }
+
 async function allCosults(req, res){
   const {id} = res.locals.user;
   
